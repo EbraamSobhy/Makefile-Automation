@@ -1,0 +1,21 @@
+# Variables
+APP=app.js
+NODE=node
+NPM=npm
+NODEMON=nodemon
+
+# Install dependencies
+install:
+	$(NPM) install express nodemon
+
+# Run app normally
+start:
+	$(NODE) $(APP)
+
+# Run with nodemon (auto-restart on changes)
+dev:
+	$(NODEMON) $(APP)
+
+# Clean node_modules
+clean:
+	rm -rf node_modules package-lock.json

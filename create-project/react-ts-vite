@@ -1,0 +1,4 @@
+create-project = npm create vite@latest
+
+vite:
+	$(create-project) . -- --template react-ts

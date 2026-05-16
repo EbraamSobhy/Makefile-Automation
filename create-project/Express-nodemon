@@ -1,0 +1,32 @@
+APP_NAME=express-app
+
+install:
+	npm init -y
+	npm install express
+
+dev-deps:
+	npm install --save-dev nodemon
+
+setup: install dev-deps
+	mkdir -p $(APP_NAME)
+	cd $(APP_NAME) && \
+	echo "const express = require('express'); \
+	const app = express(); \
+	const PORT = process.env.PORT || 3000; \
+	app.get('/', (req, res) => res.send('Hello World')); \
+	app.listen(PORT, () => console.log('Server running on port ' + PORT));" > index.js
+
+	cd $(APP_NAME) && \
+	npm pkg set scripts.start="node index.js" && \
+	npm pkg set scripts.dev="nodemon index.js"
+
+run:
+	cd $(APP_NAME) && npm run dev
+
+start:
+	cd $(APP_NAME) && npm start
+
+clean:
+	rm -rf $(APP_NAME)
+	rm -rf node_modules
+	rm -f package.json package-lock.json

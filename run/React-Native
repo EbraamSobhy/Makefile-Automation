@@ -1,0 +1,53 @@
+```makefile
+APP_NAME=my-react-native-app
+
+.PHONY: help install start android ios clean test lint reset-cache pods
+
+help:
+	@echo "Available commands:"
+	@echo "  make install      Install dependencies"
+	@echo "  make start        Start Metro bundler"
+	@echo "  make android      Run app on Android"
+	@echo "  make clean        Remove node_modules and build caches"
+	@echo "  make test         Run tests"
+	@echo "  make lint         Run ESLint"
+	@echo "  make reset-cache  Reset Metro cache"
+
+install:
+	npm install
+
+start:
+	npx react-native start
+
+android:
+	npx react-native run-android
+
+clean:
+	rm -rf node_modules
+	rm -rf android/app/build
+	rm -rf android/build
+	rm -rf /tmp/metro-*
+	npm cache clean --force
+
+reset-cache:
+	npx react-native start --reset-cache
+
+test:
+	npm test
+
+lint:
+	npx eslint .
+
+pods:
+	cd ios && pod install && cd ..
+```
+
+## Usage
+
+Run commands from your project root:
+
+```bash
+make install
+make start
+make android
+```

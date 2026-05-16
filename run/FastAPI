@@ -1,0 +1,47 @@
+# Variables
+PYTHON = python3
+PIP = pip
+APP = app.main:app
+PORT = 8000
+
+# Create virtual environment
+venv:
+	$(PYTHON) -m venv venv
+
+# Activate venv (Linux/macOS)
+activate:
+	@echo "Run: source venv/bin/activate"
+
+# Install dependencies
+install:
+	$(PIP) install --upgrade pip
+	$(PIP) install -r requirements.txt
+
+# Run FastAPI with uvicorn
+run:
+	uvicorn $(APP) --reload --host 0.0.0.0 --port $(PORT)
+
+# Run tests (pytest)
+test:
+	pytest -v
+
+# Format code (black)
+format:
+	black .
+
+# Lint code (flake8)
+lint:
+	flake8 .
+
+# Clean cache files
+clean:
+	find . -type d -name "__pycache__" -exec rm -rf {} +
+	find . -type d -name "*.pyc" -delete
+
+# Docker build (optional)
+docker-build:
+	docker build -t fastapi-app .
+
+# Docker run (optional)
+docker-run:
+	docker run -p 8000:8000 fastapi-app

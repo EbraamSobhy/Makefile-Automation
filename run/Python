@@ -1,0 +1,32 @@
+APP_NAME = myapp
+PYTHON = python3
+
+.PHONY: help
+help:
+	@echo "Available commands:"
+	@echo "  make install   - install dependencies"
+	@echo "  make run        - run the app"
+	@echo "  make test       - run tests"
+	@echo "  make lint       - run linter"
+	@echo "  make clean      - remove cache files"
+
+.PHONY: install
+install:
+	$(PYTHON) -m pip install -r requirements.txt
+
+.PHONY: run
+run:
+	$(PYTHON) main.py
+
+.PHONY: test
+test:
+	pytest -q
+
+.PHONY: lint
+lint:
+	flake8 .
+
+.PHONY: clean
+clean:
+	find . -type d -name "__pycache__" -exec rm -rf {} +
+	find . -type f -name "*.pyc" -delete

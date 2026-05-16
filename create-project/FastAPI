@@ -1,0 +1,52 @@
+# FastAPI Project Makefile
+
+APP_NAME=app
+PYTHON=python3
+VENV=.venv
+
+.PHONY: help venv install run dev test lint format clean
+
+help:
+	@echo "Available commands:"
+	@echo "  make venv      Create virtual environment"
+	@echo "  make install   Install dependencies"
+	@echo "  make run       Run FastAPI app (production style)"
+	@echo "  make dev       Run with auto-reload (development)"
+	@echo "  make test      Run tests"
+	@echo "  make lint      Run linting"
+	@echo "  make format    Format code"
+	@echo "  make clean     Remove cache and venv"
+
+# Create virtual environment
+venv:
+	$(PYTHON) -m venv $(VENV)
+	@echo "Virtual environment created in $(VENV)"
+
+# Activate venv and install dependencies
+install: venv
+	. $(VENV)/bin/activate && pip install --upgrade pip
+	. $(VENV)/bin/activate && pip install fastapi uvicorn[standard]
+
+# Run production server
+run:
+	. $(VENV)/bin/activate && uvicorn main:app --host 0.0.0.0 --port 8000
+
+# Run development server with reload
+dev:
+	. $(VENV)/bin/activate && uvicorn main:app --reload
+
+# Run tests (pytest assumed)
+test:
+	. $(VENV)/bin/activate && pytest -v
+
+# Lint (flake8 assumed)
+lint:
+	. $(VENV)/bin/activate && flake8 .
+
+# Format (black assumed)
+format:
+	. $(VENV)/bin/activate && black .
+
+# Clean project
+clean:
+	rm -rf $(VENV) __pycache__ .pytest_cache .mypy_cache

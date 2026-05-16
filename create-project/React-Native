@@ -1,0 +1,40 @@
+# Project name (change this when running: make create NAME=myapp)
+NAME ?= my-expo-app
+
+# Default Node package manager command
+NPM := npx
+
+.PHONY: create install start web ios android clean
+
+# Create new Expo React Native TypeScript project
+create:
+	@echo "Creating Expo React Native TSX project: $(NAME)"
+	$(NPM) create-expo-app $(NAME) --template blank-typescript
+	@echo "Done. Next steps:"
+	@echo "  cd $(NAME)"
+	@echo "  make install"
+
+# Install dependencies (inside project folder)
+install:
+	npm install
+
+# Start Expo dev server
+start:
+	npm start
+
+# Run web version
+web:
+	npm run web
+
+# Run iOS simulator (Mac only)
+ios:
+	npm run ios
+
+# Run Android emulator
+android:
+	npm run android
+
+# Clean install (optional)
+clean:
+	rm -rf node_modules package-lock.json
+	npm install
